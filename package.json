@@ -1,0 +1,13 @@
+{
+  "name": "socket-chat",
+  "version": "0.0.1",
+  "description": "my first CMU chatting tool app",
+  "dependencies": {
+    "body-parser": "^1.13.2",
+    "express": "^4.10.2",
+    "express-session": "^1.11.3",
+    "passport": ">=0.0.1",
+    "passport-local": "~1.0.0",
+    "socket.io": "^1.3.6"
+  }
+}

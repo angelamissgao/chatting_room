@@ -1,0 +1,45 @@
+#header {
+    background-color:#21314B;
+    color:white;
+    text-align:center;
+    padding:5px;
+}
+
+#namelist {
+    line-height:30px;
+    background-color:#eeeeee;
+    height:450px;
+    width:100px;
+    float:left;
+    padding:5px; 
+}
+
+#chattingtool {  
+
+      height: 300px;
+      float: inherit;
+      padding: 10px;
+      text-align: left;
+      border: 1px solid #ACD8F0;
+      overflow: auto;
+      margin: 20px;
+      margin-bottom: 25px;
+      margin-left: 40px;
+      background: #fff;
+      
+}
+
+#footer {
+    background-color:#21314B;
+    color:white;
+    clear:both;
+    text-align:center;
+    padding:5px; 
+}
+
+form { background: #D0CACA; padding: 3px; width: 100%; }
+      form input { border: 0; padding: 10px; width: 70%; margin-right: .5%; }
+      form button { width: 10%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }

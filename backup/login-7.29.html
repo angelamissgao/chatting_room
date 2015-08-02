@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<link type="text/css" rel="stylesheet" href="/static/style.css">
+        <title>CMU chatting room</title>
+
+    <!--bootstramp import-->
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+          <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+
+    </head>
+    <body>
+        
+        <!-- This is the Header-->
+        <div id="header" class="jumbotron"><h1>CMU chatting room</h1>
+            <p> You will find your CMU friends in our on-line chatingting</P>
+        </div>
+
+    <!--
+    	<div id="chattingtool">
+    	 <form>
+	 		Username:
+			<input type="text" name="firstname" value="Mickey"> <br>
+			Password:<br>
+			<input type="text" name="lastname" value="pass">
+			<br><br>
+			<input type="submit" value="login">
+		</form>
+    	</div>
+    -->
+
+        <div class="container">
+            <h2>Log in to Chatting Room</h2>
+
+          <form class="form-horizontal" role="form" action="/login" method="post">
+
+            <div class="form-group">
+              <label class="control-label col-sm-2" >User Name:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="username" placeholder="Calmels" name="username">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="password">Password:</label>
+              <div class="col-sm-10">          
+                <input type="password" class="form-control" id="password" placeholder="Enter password" name="password">
+              </div>
+            </div>
+
+            <div class="form-group">        
+              <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                  <label for="remember"><input type="checkbox" name="remember" id="remember"> Remember me</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">        
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default" value="Log In">Sign in</button>
+              </div>
+            </div>
+          </form>
+        </div>
+    	
+    	<!-- this is the footer-->
+        <div id="footer">
+        <p>copyright@Angela Gao</p>
+        </div>
+
+
+        <!-- this is cookie settings-->
+        <script src="/path/to/jquery.cookie.js"> </script>
+        <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+        <script>
+        if ($('#remember').attr('checked')) {
+            var username = $('#username').attr("value");
+            var password = $('#password').attr("value");
+            // set cookies to expire in 14 days
+            $.cookie('username', username, { expires: 14 });
+            $.cookie('password', password, { expires: 14 });
+            $.cookie('remember', true, { expires: 14 });
+            } else {
+            // reset cookies
+            $.cookie('username', null);
+            $.cookie('password', null);
+            $.cookie('remember', null);
+        }
+
+        var remember = $.cookie('remember');
+        if ( remember == 'true' ) {
+            var username = $.cookie('username');
+            var password = $.cookie('password');
+            // autofill the fields
+            $('#username').attr("value", username);
+            $('#password').attr("value", password);
+        }
+
+        //Signin function
+    //     $(document).ready(function() {
+    //     $('#login').click(function() {
+
+    //         $.ajax({
+    //             type: "POST",
+    //             url: 'Signin_api',
+    //             data: {
+    //                 username: $("#username").val(),
+    //                 password: $("#password").val()
+    //             },
+    //             success: function(data)
+    //             {
+    //                 if (data === 'Correct') {
+    //                     window.location.replace('index.js/Signin_api');
+    //                 }
+    //                 else {
+    //                     alert(data);
+    //                 }
+    //             }
+    //         });
+
+    //     });
+
+    // });
+
+        </script>
+    
+    </body>
+</html>

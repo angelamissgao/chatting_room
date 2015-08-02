@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <link type="text/css" rel="stylesheet" href="/static/style.css">
+        <title>CMU chatting room</title>
+        
+        <!--bootstramp import-->
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+          <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    
+
+    </head>
+    
+    <body>
+        <!-- This is the Header-->
+        <div id="header" class="jumbotron"><h1>CMU chatting room</h1>
+            <p> You will find your CMU friends in our on-line chatingting</P>
+        </div>
+    
+        <!-- this is the on-line name list-->
+        <div id="namelist">
+            <table>
+          <tr>
+          <td> student names</td>
+        </table>
+        </div>
+
+        <!-- this is the Chatting tool-->
+        <div class="panel panel-info" id="chattingtool">
+            <div class="panel-heading"> Messages:    </div>
+                <div class="panel-body">
+                <ul id="messages"></ul>
+               </div>
+        </div>
+  
+        <!-- this is the message sending box-->
+        <div class="well well-lg">
+            <form action="">
+            <input id="m" autocomplete="off" /><button class="btn btn-success">Send</button>
+            </form>
+        </div>
+
+        <!-- this is the footer-->
+      <div id="footer">
+      <p>copyright@Angela Gao</p>
+      </div>
+
+       <!-- this is the script and libraty imported-->
+        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+        <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+        <script src="/static/jquery.cookie.js"> </script>
+        <script>
+          var socket = io.connect();
+          // $('form').submit(function(){
+          //   socket.emit('chat message', $('#m').val());
+          //   $('#m').val('');
+          //   return false;
+          // });
+
+        
+
+          // socket.on('chat message', function(data){
+          //   console.log(data.msg);
+          //   $('#messages').append($('<li>').text(data.msg));            
+          // });
+
+
+          
+            var tweet ={msg:"hello www",username:"test"};
+
+            $('form').submit(function(){
+                socket.emit('tweet',{msg:$('#m').val(), username: $.cookie('username')});
+                $('#m').val('');
+                return false;
+            });
+
+          
+
+            socket.on('chat message', function(tweet){
+                $('#messages').append( $('<li>').text(tweet.username+":"+tweet.msg) );
+             });
+
+        </script>
+
+
+        // <script>
+        //   var socket = io.connect();
+        //   $('form').submit(function(){
+        //     socket.emit('chat message', $('#m').val());
+        //     $('#m').val('');
+        //     return false;
+        //   });
+        //   socket.on('chat message', function(msg){
+        //     $('#messages').append($('<li>').text(msg));
+        //   });
+        // </script>
+
+
+    </body>
+</html>
