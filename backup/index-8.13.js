@@ -36,17 +36,14 @@ app.get('/chat', function(req, res){
 
 //sign up
 app.post('/creatuser', function(req,res){ 
+  console.log("create");
   var username=req.body.username;
-  var email=req.body.email;
   var password=req.body.password;
-  var gender=req.body.gender;
-  
 
-  var user = db.prepare('INSERT INTO users(username,email,salt,gender) VALUES (?,?,?,?)');
-    user.run(username,email,password,gender);
+  var user = db.prepare('INSERT INTO users(username,salt) VALUES (?,?)');
+    user.run(username,password);
 
   console.log("User name =", username);
-
   res.sendFile(__dirname + '/mytest.html');
 } );
 

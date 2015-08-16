@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <link type="text/css" rel="stylesheet" href="/static/style.css">
+        <title>CMU chatting room</title>
+
+    <!--bootstramp import-->
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <link rel="stylesheet" href="/static/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <!--  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
+
+
+    </head>
+    <body>
+        
+        <!-- This is the Header-->
+        <div id="header" >
+        <h1>Beeper Calmels</h1>
+        <img id="header_img" class="img " src="/static/images/u2.png">
+            <p>Find Your Colleagues with Our Online Chatting Tool</P>
+        </div>
+
+
+
+        <div class="container">
+            <h2>Sign Up with Beeper Carmels</h2>
+
+          <form class="form-horizontal" role="form" method="post">
+
+            <div class="form-group">
+              <label class="control-label col-sm-2" >User Name:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="username" placeholder="Create a your username" name="username">
+              </div>
+            </div>
+
+             <div class="form-group">
+              <label class="control-label col-sm-2" >Email:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="email" placeholder="Create signup email" name="email">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="password">Creat Password:</label>
+              <div class="col-sm-10">          
+                <input type="password" class="form-control" id="password" placeholder="Enter password" name="password">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-sm-2" >Gender:</label>
+             <label><input type="radio" value="male" name="gender" checked=""> <img src="/static/images/male_small.png"> Male </label>
+             <label><input type="radio" value="female" name="gender"> <img src="static/images/female_small.png"> Female </label>
+            </div>
+
+
+
+            <div class="form-group">        
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default" id="create" value="creatuser" onclick='return false'>Signup and Startchat Now!</button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      
+      <!-- this is the footer-->
+        <div id="footer">
+        <img id="footer_img" class="img" src="/static/images/u10.png">
+        <p>Copyright @ Angela Gao</p>
+        </div>
+
+
+
+        <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+        <script src="/static/jquery.cookie.js"> </script>
+        <script>
+        $(document).ready(function() {
+            $('#create').click(function() {
+                console.log("here...");
+                $.ajax({
+                    type: "POST",
+                    url: '/creatuser',
+                    data: {
+                        username: $("#username").val(),
+                        password: $("#password").val(),
+                        email: $("#email").val(),
+                        gender:$("input:radio[name=gender]").val()
+                    },
+                    success: function(data)
+                    {
+                        $.cookie('username', $("#username").val(), { expires: 14 });
+                        $.cookie('password', $("#password").val(), { expires: 14 });
+                        window.location.replace('/chat');
+                    }  
+                });
+            });
+            });
+        </script>
+        
+    
+    </body>
+</html>
