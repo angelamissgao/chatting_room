@@ -138,7 +138,9 @@ io.on('connection', function (socket){
           }
         });
       });
+    tweet.time= new Date().getTime();
     io.emit('chat message',tweet);
+    console.log(tweet);
   });
 });
 

@@ -57,7 +57,9 @@
         <script src="/static/jquery.cookie.js"> </script>
         <script>
           var socket = io.connect();         
-          var tweet ={msg:"hello www",username:"test"};
+          // var tweet ={msg:"hello www",username:"test"};
+          //var serverTime = '<%=DateTime.Now%>';
+          //var time = new Date();
 
           $('form').submit(function(){
               socket.emit('tweet',{msg:$('#m').val(), username: $.cookie('username')});
@@ -66,7 +68,11 @@
           });
 
           socket.on('chat message', function(tweet){
-              $('#messages').append( $('<li>').text(tweet.username+":"+tweet.msg) );
+              var msgtime = new Date(tweet.time * 1000);
+
+              $('#messages').append( 
+                $('<li>').text( tweet.username+":"+tweet.msg+"on"+msgtime.toDateString() )
+              );
            });
         </script>
 

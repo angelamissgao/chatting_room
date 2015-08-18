@@ -88,7 +88,7 @@
                         username: $("#username").val(),
                         password: $("#password").val(),
                         email: $("#email").val(),
-                        gender:$("input:radio[name=gender]").val()
+                        gender:$("input:radio[name=gender]:checked").val()
                     },
                     success: function(data)
                     {
