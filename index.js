@@ -121,11 +121,41 @@ app.post('/signin', function(req, res) {
 //Chatting tool using Socket.io
 io.on('connection', function (socket){
 
+// //update online users
+//   var users = [];
+//   socket.on("adduser",function(user){
+//     socket.user=user;
+//     user.push(user);
+//     updateClients();
+//   });
+
+//   socket.on('discontect',function(){
+//     for(var i=0;i<users.length;i++){
+//       if(users[i]==socket.user){
+//         delete users[users[i]];
+//       }
+//     }
+//     updateClients();
+//   });
+
+//   function updateClients(){
+//     io.sockets.emit('update',users);
+//   }
+
+
   console.log('a user connected');
   socket.on('disconnect', function () {
         console.log('user disconnected');
   });
 
+
+//Give last 10 message to newly loged in users;
+  db.serialize(function(stream){
+    db.each('SELECT message,posted_on,username FROM (SELECT message,chat_id,posted_on,username FROM chat INNER JOIN users ON users.id=chat.userid ORDER BY chat_id DESC LIMIT 10) ORDER BY chat_id',function(err,row){
+      io.emit('stream',row);
+    });
+  });
+    
 
   socket.on('tweet', function(tweet){
     db.serialize(function() {

@@ -57,10 +57,7 @@
         <script src="/static/jquery.cookie.js"> </script>
         <script>
           var socket = io.connect();         
-          // var tweet ={msg:"hello www",username:"test"};
-          //var serverTime = '<%=DateTime.Now%>';
-          //var time = new Date();
-
+          
           $('form').submit(function(){
               socket.emit('tweet',{msg:$('#m').val(), username: $.cookie('username')});
               $('#m').val('');
@@ -73,7 +70,30 @@
               $('#messages').append( 
                 $('<li>').text( tweet.username+":"+tweet.msg+"   "+msgtime.toLocaleDateString()+"   "+msgtime.toLocaleTimeString() )
               );
-           });
+          });
+
+          socket.on('stream', function(stream){
+                var msgtimeST= new Date(stream.posted_on);
+                $('#messages').append( 
+                  $('<li>').text( stream.username+":"+stream.message+"   "+msgtimeST.toLocaleDateString()+"   "+msgtimeST.toLocaleTimeString()  )
+                );
+          });
+
+          // socket.on('connect',function(){
+          //     socket.emit('adduser',prompt("what's your name?"));
+          // });
+
+          // var userList=[];
+          
+          // socket.on('update',function(users){
+            
+          //   userList = users;
+          //   $('#namelist').empty();
+          //   for( var i=0; i<userList.length; i++){
+          //     $('namelist').append("<h2>"+userList[i]+"</h2>");
+          //   }
+          // });
+
         </script>
 
 
