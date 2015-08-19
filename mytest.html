@@ -68,10 +68,10 @@
           });
 
           socket.on('chat message', function(tweet){
-              var msgtime = new Date(tweet.time * 1000);
+              var msgtime = new Date(tweet.time);
 
               $('#messages').append( 
-                $('<li>').text( tweet.username+":"+tweet.msg+"on"+msgtime.toDateString() )
+                $('<li>').text( tweet.username+":"+tweet.msg+"   "+msgtime.toLocaleDateString()+"   "+msgtime.toLocaleTimeString() )
               );
            });
         </script>
