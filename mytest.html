@@ -22,10 +22,14 @@
             <p>Find Your Colleagues with Our Online Chatting Tool</P>
         </div>
     
+        <div>
+              <button id="logout" type="submit" value="logout" onclick="return false"> Log out</button>
+        
+        </div>
         <!-- this is the on-line name list-->
         <div id="namelist" class="panel panel-info">
+          <ul id="nametag"></ul>
             <table>
-          <tr>
           <td> student names</td>
         </table>
         </div>
@@ -57,11 +61,26 @@
         <script src="/static/jquery.cookie.js"> </script>
         <script>
           var socket = io.connect();         
-          
+          //emit message
           $('form').submit(function(){
               socket.emit('tweet',{msg:$('#m').val(), username: $.cookie('username')});
               $('#m').val('');
               return false;
+          });
+
+          $('#logout').click(function(){
+            $.ajax({
+                    type: "GET",
+                    url: '/',
+                    success: function(data)
+                    {
+                      $.removeCookie('username',{path:'/'});
+                        console.log('logout');
+                      $.removeCookie('password',{path:'/'});
+                        window.location.replace('/');
+                    }  
+                });
+            
           });
 
           socket.on('chat message', function(tweet){
@@ -72,6 +91,7 @@
               );
           });
 
+          //stream on last 10 messages
           socket.on('stream', function(stream){
                 var msgtimeST= new Date(stream.posted_on);
                 $('#messages').append( 
@@ -79,20 +99,23 @@
                 );
           });
 
-          // socket.on('connect',function(){
-          //     socket.emit('adduser',prompt("what's your name?"));
-          // });
+          // update connected users
+          socket.on('connect',function(){
+              socket.emit('adduser',{user: $.cookie('username')} );
+          });
 
-          // var userList=[];
-          
-          // socket.on('update',function(users){
+          var userList=[];
+
+          socket.on('update',function(users){
             
-          //   userList = users;
-          //   $('#namelist').empty();
-          //   for( var i=0; i<userList.length; i++){
-          //     $('namelist').append("<h2>"+userList[i]+"</h2>");
-          //   }
-          // });
+            userList = users;
+            $('#nametag').empty();
+            for( var i=0; i<userList.length; i++){
+              $('#nametag').append(
+                $('<tr>').text( userList[i].user)
+                );
+            }
+          });
 
         </script>
 

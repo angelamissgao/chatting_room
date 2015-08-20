@@ -120,33 +120,39 @@ app.post('/signin', function(req, res) {
 
 //Chatting tool using Socket.io
 io.on('connection', function (socket){
+   console.log('a user connected');
+   var stats={connection:0};
+   stats.connection++;
+   console.log("number is "+stats.connection);
 
-// //update online users
-//   var users = [];
-//   socket.on("adduser",function(user){
-//     socket.user=user;
-//     user.push(user);
-//     updateClients();
-//   });
+//update online users
+  var users = [];
+  socket.on("adduser",function(user){
+    
+    users.push(user)
+    // console.log( users.push(user) );
+    // console.log(users);
 
-//   socket.on('discontect',function(){
-//     for(var i=0;i<users.length;i++){
-//       if(users[i]==socket.user){
-//         delete users[users[i]];
-//       }
-//     }
-//     updateClients();
-//   });
-
-//   function updateClients(){
-//     io.sockets.emit('update',users);
-//   }
-
-
-  console.log('a user connected');
-  socket.on('disconnect', function () {
-        console.log('user disconnected');
+    //var socket.user=user;
+    //users.push(user);
+    updateClients();
   });
+
+  socket.on('discontect',function(){
+    stats.connection--;
+    console.log('user disconnected');
+    for(var i=0;i<users.length;i++){
+      if(users[i]==socket.user){
+        delete users[users[i]];
+      }
+    }
+    updateClients();
+  });
+
+  function updateClients(){
+    
+    io.sockets.emit('update',users);
+  }
 
 
 //Give last 10 message to newly loged in users;
