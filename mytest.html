@@ -23,7 +23,7 @@
         </div>
     
         <div>
-              <button id="logout" type="submit" value="logout" onclick="return false"> Log out</button>
+              <button id="logout" type="submit" value="logout" onclick="return false" class="btn btn-primary"> Log out</button>
         
         </div>
         <!-- this is the on-line name list-->
@@ -60,7 +60,7 @@
         <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
         <script src="/static/jquery.cookie.js"> </script>
         <script>
-          var socket = io.connect();         
+          var socket = io.connect();     
           //emit message
           $('form').submit(function(){
               socket.emit('tweet',{msg:$('#m').val(), username: $.cookie('username')});
@@ -68,6 +68,7 @@
               return false;
           });
 
+          //log out
           $('#logout').click(function(){
             $.ajax({
                     type: "GET",
@@ -77,26 +78,35 @@
                       $.removeCookie('username',{path:'/'});
                         console.log('logout');
                       $.removeCookie('password',{path:'/'});
+                      
                         window.location.replace('/');
                     }  
                 });
             
           });
 
+          //Send message
           socket.on('chat message', function(tweet){
               var msgtime = new Date(tweet.time);
 
               $('#messages').append( 
                 $('<li>').text( tweet.username+":"+tweet.msg+"   "+msgtime.toLocaleDateString()+"   "+msgtime.toLocaleTimeString() )
               );
+
+              
           });
 
           //stream on last 10 messages
           socket.on('stream', function(stream){
                 var msgtimeST= new Date(stream.posted_on);
+
+                //$('div.panel-body').scrollTop(1000);    
+
                 $('#messages').append( 
                   $('<li>').text( stream.username+":"+stream.message+"   "+msgtimeST.toLocaleDateString()+"   "+msgtimeST.toLocaleTimeString()  )
                 );
+
+               
           });
 
           // update connected users

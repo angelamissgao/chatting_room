@@ -1,6 +1,7 @@
 //server set-up and message request setup
 var express = require('express');
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -16,6 +17,8 @@ app.use('/static', express.static('static'));
 //POST request bodyParser define;
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use(cookieParser());
+
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/login.html');
 });
@@ -27,9 +30,25 @@ app.get('/signup', function(req, res){
 
 
 app.get('/chat', function(req, res){
-  res.sendFile(__dirname + '/mytest.html');
+   console.log('cookies: ', req.cookies);
+   if ( isEmptyObject(req.cookies) ) {
+     console.log('no cookies found');
+    res.sendFile(__dirname + '/login.html');
+   } 
+   
+   else {
+    res.sendFile(__dirname + '/mytest.html');
+   }
 });
 
+function isEmptyObject(obj) {
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      return false;
+    }
+  }
+  return true;
+}
 // app.get('/good-login', function(req, res){
 //   res.sendFile(__dirname + '/mytest.html');
 // });
