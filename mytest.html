@@ -111,18 +111,16 @@
 
           // update connected users
           socket.on('connect',function(){
-              socket.emit('adduser',{user: $.cookie('username')} );
+              socket.emit('adduser',{username: $.cookie('username')} );
           });
 
-          var userList=[];
 
           socket.on('update',function(users){
-            
-            userList = users;
+  
             $('#nametag').empty();
-            for( var i=0; i<userList.length; i++){
+            for( var i=0; i<users.length; i++){
               $('#nametag').append(
-                $('<tr>').text( userList[i].user)
+                $('<tr>').text( users[i].username)
                 );
             }
           });

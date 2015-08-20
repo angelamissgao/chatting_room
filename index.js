@@ -28,11 +28,9 @@ app.get('/signup', function(req, res){
   res.sendFile(__dirname + '/signup.html');
 });
 
-
+//Signin success with cookie checking
 app.get('/chat', function(req, res){
-   console.log('cookies: ', req.cookies);
    if ( isEmptyObject(req.cookies) ) {
-     console.log('no cookies found');
     res.sendFile(__dirname + '/login.html');
    } 
    
@@ -49,6 +47,7 @@ function isEmptyObject(obj) {
   }
   return true;
 }
+
 // app.get('/good-login', function(req, res){
 //   res.sendFile(__dirname + '/mytest.html');
 // });
@@ -63,8 +62,6 @@ app.post('/creatuser', function(req,res){
 
   var user = db.prepare('INSERT INTO users(username,email,salt,gender) VALUES (?,?,?,?)');
     user.run(username,email,password,gender);
-
-  console.log("User name =", username);
 
   res.sendFile(__dirname + '/mytest.html');
 } );
@@ -138,28 +135,34 @@ app.post('/signin', function(req, res) {
 
 
 //Chatting tool using Socket.io
+var stats={connection:0};
+var users = [];
 io.on('connection', function (socket){
-   console.log('a user connected');
-   var stats={connection:0};
-   stats.connection++;
-   console.log("number is "+stats.connection);
+  console.log('a user connected'); 
+   
+  stats.connection++;
+  console.log("number is "+stats.connection);
 
 //update online users
-  var users = [];
+  
   socket.on("adduser",function(user){
-    
-    users.push(user)
-    // console.log( users.push(user) );
-    // console.log(users);
-
-    //var socket.user=user;
-    //users.push(user);
+    console.log("adduser handler give "+user.username);
+    var user_local = user.username;
+    for(var i=0;i<users.length;i++) {
+      if (users[i].username== user_local){
+        break;
+      }
+    }
+    if (i==users.length){
+      users.push(user);
+    }  
     updateClients();
   });
 
-  socket.on('discontect',function(){
+  socket.on('disconnect',function(){
     stats.connection--;
     console.log('user disconnected');
+    console.log("number is "+stats.connection);
     for(var i=0;i<users.length;i++){
       if(users[i]==socket.user){
         delete users[users[i]];
@@ -169,7 +172,7 @@ io.on('connection', function (socket){
   });
 
   function updateClients(){
-    
+    console.log('total is '+ users);
     io.sockets.emit('update',users);
   }
 
