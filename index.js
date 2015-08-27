@@ -139,14 +139,9 @@ var stats={connection:0};
 var users = [];
 io.on('connection', function (socket){
   console.log('a user connected'); 
-   
-  stats.connection++;
-  console.log("number is "+stats.connection);
-
-//update online users
-  
+  stats.connection++; //need edit here
+  //update online users
   socket.on("adduser",function(user){
-    console.log("adduser handler give "+user.username);
     var user_local = user.username;
     for(var i=0;i<users.length;i++) {
       if (users[i].username== user_local){
@@ -159,12 +154,13 @@ io.on('connection', function (socket){
     updateClients();
   });
 
-  socket.on('disconnect',function(){
+  socket.on('disconnect',function(user){
     stats.connection--;
+    var user_local=user.username
     console.log('user disconnected');
     console.log("number is "+stats.connection);
     for(var i=0;i<users.length;i++){
-      if(users[i]==socket.user){
+      if(users[i].username==user_local){
         delete users[users[i]];
       }
     }
@@ -172,7 +168,6 @@ io.on('connection', function (socket){
   });
 
   function updateClients(){
-    console.log('total is '+ users);
     io.sockets.emit('update',users);
   }
 

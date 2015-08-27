@@ -45,7 +45,7 @@
 
         <!-- this is the Chatting tool-->
         <div class="panel panel-info" id="chattingtool">
-            <div class="panel-heading"> Messages:    </div>
+            <div class="panel-heading"> Hear beeps: </div>
                 <div class="panel-body">
                 <ul id="messages"></ul>
                </div>
@@ -83,12 +83,12 @@
                     type: "GET",
                     url: '/',
                     success: function(data)
-                    {
+                    { 
+                      socket.emit('disconnect',{username: $.cookie('username')} );
                       $.removeCookie('username',{path:'/'});
-                        console.log('logout');
                       $.removeCookie('password',{path:'/'});
                       
-                        window.location.replace('/');
+                      window.location.replace('/');
                     }  
                 });
             
@@ -101,19 +101,21 @@
               $('#messages').append( 
                 $('<li>').text( tweet.username+":"+tweet.msg+"   "+msgtime.toLocaleDateString()+"   "+msgtime.toLocaleTimeString() )
               );
+              
+              $("#chattingtool").scrollTop($("#messages").height());
 
               
           });
 
           //stream on last 10 messages
           socket.on('stream', function(stream){
-                var msgtimeST= new Date(stream.posted_on);
-
-                //$('div.panel-body').scrollTop(1000);    
+                var msgtimeST= new Date(stream.posted_on); 
+                //window.scrollTo(0, document.body.scrollHeight);  
 
                 $('#messages').append( 
                   $('<li>').text( stream.username+":"+stream.message+"   "+msgtimeST.toLocaleDateString()+"   "+msgtimeST.toLocaleTimeString()  )
                 );
+                $("#chattingtool").scrollTop($("#messages").height());
 
                
           });
