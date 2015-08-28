@@ -37,9 +37,15 @@
 
         <!-- this is the on-line name list-->
         <div id="namelist" class="panel panel-info">
-          <ul id="nametag"></ul>
-            <table>
-          <td> student names</td>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th> student names</th>
+                </tr>
+              </thead>
+            <tbody id="nametag" class="success">
+            </tbody>
+          
         </table>
         </div>
 
@@ -99,9 +105,9 @@
               var msgtime = new Date(tweet.time);
 
               $('#messages').append( 
-                $('<li>').text( tweet.username+":"+tweet.msg+"   "+msgtime.toLocaleDateString()+"   "+msgtime.toLocaleTimeString() )
+                $('<li>').html( "<b>"+tweet.username+":"+"</b>"+"&nbsp &nbsp"+tweet.msg+"<div class='posttime'>"+msgtime.toLocaleDateString()+"   "+msgtime.toLocaleTimeString()+"</div>" )
               );
-              
+
               $("#chattingtool").scrollTop($("#messages").height());
 
               
@@ -110,10 +116,9 @@
           //stream on last 10 messages
           socket.on('stream', function(stream){
                 var msgtimeST= new Date(stream.posted_on); 
-                //window.scrollTo(0, document.body.scrollHeight);  
 
                 $('#messages').append( 
-                  $('<li>').text( stream.username+":"+stream.message+"   "+msgtimeST.toLocaleDateString()+"   "+msgtimeST.toLocaleTimeString()  )
+                  $('<li>').html( "<b>"+stream.username+":"+"</b>"+"&nbsp &nbsp"+stream.message+"<div class='posttime'>"+msgtimeST.toLocaleDateString()+"   "+msgtimeST.toLocaleTimeString()+"</div>"  )
                 );
                 $("#chattingtool").scrollTop($("#messages").height());
 
@@ -131,7 +136,7 @@
             $('#nametag').empty();
             for( var i=0; i<users.length; i++){
               $('#nametag').append(
-                $('<tr>').text( users[i].username)
+                $('<tr>').html(users[i].username)
                 );
             }
           });

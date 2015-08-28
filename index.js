@@ -174,7 +174,7 @@ io.on('connection', function (socket){
 
 //Give last 10 message to newly loged in users;
   db.serialize(function(stream){
-    db.each('SELECT message,posted_on,username FROM (SELECT message,chat_id,posted_on,username FROM chat INNER JOIN users ON users.id=chat.userid ORDER BY chat_id DESC LIMIT 10) ORDER BY chat_id',function(err,row){
+    db.each('SELECT message,posted_on,username FROM (SELECT message,chat_id,posted_on,username FROM chat INNER JOIN users ON users.id=chat.userid ORDER BY chat_id DESC LIMIT 6) ORDER BY chat_id',function(err,row){
       io.emit('stream',row);
     });
   });

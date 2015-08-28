@@ -61,6 +61,16 @@
     z-index:-1;
   }
 
+.posttime{
+ float:right;
+ font-style: italic;
+}
+
+.success{
+  text-align: center;
+  font-family: cursive;
+
+}
 /*form { padding: 3px; width: 100%; margin:auto; }*/
       /*form input { border: 0; padding: 10px; width: 70%; margin-right: .5%; }*/
       /*form button { width: 10%; background: rgb(130, 224, 255); border: none; padding: 10px; }*/
